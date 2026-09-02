@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://blanket-00.github.io/Veyyil-Vadagam/sitemap.xml
