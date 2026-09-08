@@ -593,5 +593,187 @@
   </div> 
 </footer>
 
+  <!-- CUSTOMER REVIEWS SECTION -->
+
+<section class="reviews-section" id="reviews">
+
+  <div class="reviews-header">
+
+    <h2>Customer Reviews</h2>
+
+    <p>
+      See what our customers say about Veyyil Vadagam
+    </p>
+
+  </div>
+
+
+  <!-- REVIEWS WILL LOAD HERE -->
+
+  <div
+    id="reviewsContainer"
+    class="reviews-container">
+
+    <p class="loading-reviews">
+      Loading reviews...
+    </p>
+
+  </div>
+
+
+  <!-- WRITE REVIEW -->
+
+  <div class="write-review-box">
+
+    <h3>Share Your Experience</h3>
+
+    <p>
+      Enjoyed our traditional vadagam?
+      Share your experience with us.
+    </p>
+
+    <form id="reviewForm">
+
+
+      <!-- NAME -->
+
+      <div class="form-group">
+
+        <label for="reviewName">
+          Your Name
+        </label>
+
+        <input
+          type="text"
+          id="reviewName"
+          name="name"
+          placeholder="Enter your name"
+          maxlength="50"
+          required>
+
+      </div>
+
+
+      <!-- LOCATION -->
+
+      <div class="form-group">
+
+        <label for="reviewLocation">
+          Your Location
+        </label>
+
+        <input
+          type="text"
+          id="reviewLocation"
+          name="location"
+          placeholder="Example: Thanjavur"
+          maxlength="100"
+          required>
+
+      </div>
+
+
+      <!-- RATING -->
+
+      <div class="form-group">
+
+        <label>
+          Your Rating
+        </label>
+
+        <div class="rating-input">
+
+          <label>
+            <input
+              type="radio"
+              name="rating"
+              value="1"
+              required>
+            <span>★</span>
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="rating"
+              value="2">
+            <span>★</span>
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="rating"
+              value="3">
+            <span>★</span>
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="rating"
+              value="4">
+            <span>★</span>
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="rating"
+              value="5">
+            <span>★</span>
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- REVIEW -->
+
+      <div class="form-group">
+
+        <label for="reviewText">
+          Your Review
+        </label>
+
+        <textarea
+          id="reviewText"
+          name="review"
+          placeholder="Write your experience..."
+          maxlength="500"
+          required></textarea>
+
+        <small>
+          Maximum 500 characters
+        </small>
+
+      </div>
+
+
+      <!-- SUBMIT -->
+
+      <button
+        type="submit"
+        id="submitReview">
+
+        Post Review
+
+      </button>
+
+
+      <!-- MESSAGE -->
+
+      <p
+        id="reviewMessage"
+        class="review-message">
+      </p>
+
+    </form>
+
+  </div>
+
+</section>
+  
 </body>
 </html>
