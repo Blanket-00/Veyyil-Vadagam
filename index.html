@@ -1130,6 +1130,321 @@
   </div>
 
 </section>
+
+  <script>
+
+const REVIEWS_API =
+"https://script.google.com/macros/s/AKfycbwyF5UosgvjIFwAy2kIsWjXio0q47d8wGHC3Y3EjG1ixYtoAWp5AEZaLE4vLb9A5XhoTg/exec";
+
+
+// =====================================
+// LOAD APPROVED REVIEWS
+// =====================================
+
+function loadReviews() {
+
+  fetch(
+    REVIEWS_API + "?action=getReviews"
+  )
+
+  .then(response => response.json())
+
+  .then(data => {
+
+    const container =
+      document.getElementById(
+        "reviewsContainer"
+      );
+
+
+    container.innerHTML = "";
+
+
+    if (
+      !data.success ||
+      !data.reviews ||
+      data.reviews.length === 0
+    ) {
+
+      container.innerHTML = `
+        <p>
+          Be the first customer to leave a review!
+        </p>
+      `;
+
+      return;
+    }
+
+
+    data.reviews.forEach(review => {
+
+      const card =
+        document.createElement("div");
+
+      card.className = "review-card";
+
+
+      const rating =
+        Math.max(
+          1,
+          Math.min(
+            5,
+            Number(review.rating)
+          )
+        );
+
+
+      const stars =
+        "★".repeat(rating) +
+        "☆".repeat(5 - rating);
+
+
+      // Safely create elements
+      const starsDiv =
+        document.createElement("div");
+
+      starsDiv.className =
+        "review-stars";
+
+      starsDiv.textContent =
+        stars;
+
+
+      const reviewText =
+        document.createElement("p");
+
+      reviewText.className =
+        "review-text";
+
+      reviewText.textContent =
+        `"${review.review}"`;
+
+
+      const name =
+        document.createElement("h3");
+
+      name.className =
+        "review-name";
+
+      name.textContent =
+        review.name;
+
+
+      const location =
+        document.createElement("span");
+
+      location.className =
+        "review-location";
+
+      location.textContent =
+        review.location;
+
+
+      card.appendChild(starsDiv);
+
+      card.appendChild(reviewText);
+
+      card.appendChild(name);
+
+      card.appendChild(location);
+
+
+      container.appendChild(card);
+
+    });
+
+  })
+
+  .catch(error => {
+
+    console.error(error);
+
+    document.getElementById(
+      "reviewsContainer"
+    ).innerHTML = `
+      <p>
+        Reviews are temporarily unavailable.
+      </p>
+    `;
+
+  });
+
+}
+
+
+// =====================================
+// SUBMIT REVIEW
+// =====================================
+
+document
+  .getElementById("reviewForm")
+  .addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+
+      const button =
+        document.getElementById(
+          "submitReview"
+        );
+
+      const message =
+        document.getElementById(
+          "reviewMessage"
+        );
+
+
+      const name =
+        document.getElementById(
+          "reviewName"
+        ).value.trim();
+
+
+      const location =
+        document.getElementById(
+          "reviewLocation"
+        ).value.trim();
+
+
+      const review =
+        document.getElementById(
+          "reviewText"
+        ).value.trim();
+
+
+      const ratingElement =
+        document.querySelector(
+          'input[name="rating"]:checked'
+        );
+
+
+      if (!ratingElement) {
+
+        message.textContent =
+          "Please select a rating.";
+
+        return;
+
+      }
+
+
+      const rating =
+        Number(ratingElement.value);
+
+
+      if (
+        !name ||
+        !location ||
+        !review
+      ) {
+
+        message.textContent =
+          "Please fill all fields.";
+
+        return;
+
+      }
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Posting...";
+
+
+      message.textContent = "";
+
+
+      const reviewData = {
+
+        name: name,
+
+        location: location,
+
+        rating: rating,
+
+        review: review
+
+      };
+
+
+      fetch(
+        REVIEWS_API,
+        {
+
+          method: "POST",
+
+          body: JSON.stringify(
+            reviewData
+          )
+
+        }
+      )
+
+      .then(response =>
+        response.json()
+      )
+
+      .then(data => {
+
+        if (data.success) {
+
+          message.textContent =
+            "Thank you! Your review has been submitted.";
+
+          document
+            .getElementById(
+              "reviewForm"
+            )
+            .reset();
+
+          /*
+             The review will NOT appear
+             immediately because it needs
+             your approval in Google Sheets.
+          */
+
+        } else {
+
+          message.textContent =
+            data.message ||
+            "Unable to submit review.";
+
+        }
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+        message.textContent =
+          "Something went wrong. Please try again.";
+
+      })
+
+      .finally(() => {
+
+        button.disabled = false;
+
+        button.textContent =
+          "Post Review";
+
+      });
+
+    }
+  );
+
+
+// =====================================
+// LOAD REVIEWS WHEN PAGE OPENS
+// =====================================
+
+loadReviews();
+
+</script>
   
 </body>
 </html>
