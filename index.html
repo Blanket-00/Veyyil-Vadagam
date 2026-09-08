@@ -459,15 +459,9 @@
   transition: 0.2s;
 }
 
-/* SELECTED STAR */
+/* FILLED STARS (up to selected/hovered value, set via JS) */
 
-.rating-input input:checked + span {
-  color: var(--turmeric);
-}
-
-/* HOVER */
-
-.rating-input label:hover span {
+.rating-input span.active {
   color: var(--turmeric);
 }
 
