@@ -1146,6 +1146,75 @@ function loadReviews() {
 
 
 // =====================================
+// STAR RATING (fill all stars up to selection/hover)
+// =====================================
+
+(function() {
+
+  const ratingInput =
+    document.querySelector(".rating-input");
+
+  if (!ratingInput) return;
+
+  const stars =
+    Array.from(
+      ratingInput.querySelectorAll("label")
+    );
+
+  function paintStars(value) {
+
+    stars.forEach(label => {
+
+      const starValue =
+        Number(
+          label.querySelector('input[type="radio"]').value
+        );
+
+      label.querySelector("span")
+        .classList
+        .toggle("active", starValue <= value);
+
+    });
+
+  }
+
+  function currentSelectedValue() {
+
+    const checked =
+      ratingInput.querySelector(
+        'input[type="radio"]:checked'
+      );
+
+    return checked ? Number(checked.value) : 0;
+
+  }
+
+  stars.forEach(label => {
+
+    const input =
+      label.querySelector('input[type="radio"]');
+
+    // Click / keyboard selection
+    input.addEventListener("change", () => {
+      paintStars(Number(input.value));
+    });
+
+    // Hover preview
+    label.addEventListener("mouseenter", () => {
+      paintStars(Number(input.value));
+    });
+
+  });
+
+  // Revert to actual selection when leaving the star row
+  ratingInput.addEventListener("mouseleave", () => {
+    paintStars(currentSelectedValue());
+  });
+
+})();
+
+
+// =====================================
 // SUBMIT REVIEW
 // =====================================
 
@@ -1272,6 +1341,13 @@ document
               "reviewForm"
             )
             .reset();
+
+          // Clear the star display after reset,
+          // since .reset() unchecks the radio
+          // but doesn't remove the "active" class.
+          document
+            .querySelectorAll(".rating-input span.active")
+            .forEach(span => span.classList.remove("active"));
 
           /*
              The review will NOT appear
